@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MIHIR EDITING LAB</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#080808;color:#f5f5f5;line-height:1.6}
+header{text-align:center;padding:35px 15px;background:linear-gradient(135deg,#171717,#050505);border-bottom:1px solid #c9a45c}
+.logo{font-size:30px;font-weight:900;letter-spacing:3px}
+.logo span{color:#d7b46a}
+header p{color:#aaa;margin-top:8px}
+nav{padding:14px;text-align:center;border-bottom:1px solid #252525}
+nav a{color:#d7b46a;text-decoration:none;margin:0 12px}
+.hero{text-align:center;padding:55px 20px 35px}
+.hero h1{font-size:clamp(28px,5vw,46px);line-height:1.2}
+.hero h1 span{color:#d7b46a}
+.hero p{color:#bbb;margin:16px auto;max-width:600px}
+.btn{display:inline-block;background:#d7b46a;color:#111;padding:12px 22px;border:0;border-radius:5px;font-weight:bold;text-decoration:none;cursor:pointer}
+section{max-width:850px;margin:25px auto;padding:20px}
+.section-title{text-align:center;font-size:26px;margin-bottom:20px}
+.section-title span{color:#d7b46a}
+.services{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:15px}
+.service{background:#141414;border:1px solid #292929;border-radius:9px;padding:20px;text-align:center}
+.service h3{color:#d7b46a;margin-bottom:8px}
+.form-box{background:#111;border:1px solid #333;border-radius:12px;padding:25px}
+label{display:block;margin:15px 0 6px;color:#ddd}
+input,select,textarea{width:100%;padding:12px;background:#080808;color:white;border:1px solid #444;border-radius:5px;font-size:15px}
+input:focus,textarea:focus,select:focus{outline:1px solid #d7b46a}
+input[type=file]{padding:10px}
+textarea{min-height:110px;resize:vertical}
+button{margin-top:20px;width:100%;font-size:16px}
+.note{font-size:13px;color:#aaa;margin-top:12px}
+#status{margin-top:15px;color:#d7b46a;overflow-wrap:anywhere}
+footer{text-align:center;padding:25px;color:#888;border-top:1px solid #292929;margin-top:35px}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">MIHIR <span>EDITING LAB</span></div>
+  <p>Premium Photo Editing • Creative Designs • Professional Touch</p>
+</header>
+<nav>
+  <a href="#home">Home</a>
+  <a href="#services">Services</a>
+  <a href="#order">Order Editing</a>
+</nav>
+<main>
+<section class="hero" id="home">
+  <h1>MAKE YOUR PHOTOS<br><span>LOOK EXTRAORDINARY</span></h1>
+  <p>Welcome to Mihir Editing Lab. Share your photo and tell us what kind of editing you want.</p>
+  <a class="btn" href="#order">REQUEST AN EDIT</a>
+</section>
+<section id="services">
+  <h2 class="section-title">OUR <span>SERVICES</span></h2>
+  <div class="services">
+    <div class="service"><h3>Portrait Editing</h3><p>Stylish portraits and natural retouching.</p></div>
+    <div class="service"><h3>Cinematic Look</h3><p>Moody tones and cinematic colour effects.</p></div>
+    <div class="service"><h3>Photo Collage</h3><p>Creative layouts and premium albums.</p></div>
+    <div class="service"><h3>Background Editing</h3><p>Beautiful backgrounds and photo compositions.</p></div>
+  </div>
+</section>
+<section id="order">
+  <h2 class="section-title">REQUEST AN <span>EDIT</span></h2>
+  <div class="form-box">
+    <form id="editForm">
+      <label for="name">Your Name *</label>
+      <input id="name" name="name" type="text" placeholder="Enter your full name" required>
+      <label for="email">Email Address *</label>
+      <input id="email" name="email" type="email" placeholder="you@example.com" required>
+      <label for="service">Choose Editing Type *</label>
+      <select id="service" name="service" required>
+        <option value="">Select a service</option>
+        <option>Portrait Editing</option>
+        <option>Cinematic Photo</option>
+        <option>Photo Collage / Album</option>
+        <option>Background Change</option>
+        <option>Other Editing</option>
+      </select>
+      <label for="details">Describe Your Requirements *</label>
+      <textarea id="details" name="details" placeholder="Describe the style, background, colours, etc." required></textarea>
+      <label for="photo">Upload Your Photo *</label>
+      <input id="photo" name="photo" type="file" accept="image/*" required>
+      <p class="note">Please upload an image file. Maximum recommended size: 10 MB.</p>
+      <button class="btn" type="submit">SUBMIT EDITING REQUEST</button>
+      <p id="status" role="status"></p>
+      <p class="note">Demo form: submitting opens your email app if one is configured. The photo is not automatically attached.</p>
+    </form>
+  </div>
+</section>
+</main>
+<footer>
+  <p>© <span id="year"></span> MIHIR EDITING LAB. All rights reserved.</p>
+  <p>Creative work with a premium touch.</p>
+</footer>
+<script>
+document.getElementById("year").textContent = new Date().getFullYear();
+document.getElementById("editForm").addEventListener("submit", function(event) {
+  event.preventDefault();
+  const name = document.getElementById("name").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const service = document.getElementById("service").value;
+  const details = document.getElementById("details").value.trim();
+  const photo = document.getElementById("photo").files[0];
+  const status = document.getElementById("status");
+  if (!photo || photo.size > 10 * 1024 * 1024) {
+    status.textContent = "Please select an image smaller than 10 MB.";
+    return;
+  }
+  const subject = encodeURIComponent("New Editing Request - " + service);
+  const body = encodeURIComponent(
+    "New editing request\\n\\n" +
+    "Name: " + name + "\\n" +
+    "Customer Email: " + email + "\\n" +
+    "Service: " + service + "\\n" +
+    "Editing Details: " + details + "\\n\\n" +
+    "Please remember: the customer's selected photo must be attached manually."
+  );
+  status.textContent = "Opening your email app. Please attach the customer's photo manually before sending.";
+  window.location.href = "mailto:?subject=" + subject + "&body=" + body;
+});
+</script>
+</body>
+</html>
